@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Todo App - Fastapi</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
+        <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
+        <script src="/js/script.js"></script>
+
+    </head>
+    <body>
+        <div style="margin-top: 50px;" class="ui container">
+            <h1 class="ui center aligned header">Fastask App</h1>
+
+            <form class="ui form" action="/add" method="post">
+                <div class="field">
+                    <label>Task Title</label>
+                    <input type="text" maxlength="280" name="title" placeholder="Enter new task..." onkeyup="countChars(this)";>
+                    <br>
+                </div>
+                <p id="charNum">280 characters remaining</p>
+                <button class="ui blue button" type="submit">Add</button>
+            </form>
+
+            <hr>
+
+            {% for todo in todo_list %} 
+                {% if todo.complete == True %}
+                <div class="ui green segment">
+                    <p class="ui green big header">{{ todo.id }} | {{ todo.title }}</p>
+               <!--  <span class="ui green label">Yes</span> -->
+                {% elif todo.denied == True %}
+                <div class="ui red segment">
+                    <p class="ui red big header">{{ todo.id }} | {{ todo.title }}</p>
+                <a class="ui label" href="/delete/{{ todo.id }}">🗑️</a>
+               <!--  <span class="ui red label">No</span> -->
+                {% elif todo.indoubt == True %}
+                <div class="ui yellow segment">
+                    <p class="ui yellow big header">{{ todo.id }} | {{ todo.title }}</p>
+               <!-- <span class="ui yellow label">In doubt</span> -->
+                {% else %}
+                <div class="ui blue segment">
+                    <p class="ui blue big header">{{ todo.id }} | {{ todo.title }}</p>
+               <!-- <span class="ui blue label">Not answered</span> -->
+                {% endif %}
+                 
+                <a class="ui green small button" href="/update/{{ todo.id }}">Yes</a>
+                <a class="ui red small button" href="/denied/{{ todo.id }}">No</a>
+                <a class="ui yellow small button" href="/indoubt/{{ todo.id }}">In doubt</a>
+            </div>
+            {% endfor %}
+        </div>
+
+
+    </body>
+
+</html>
